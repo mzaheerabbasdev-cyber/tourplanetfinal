@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer';
 
+// Change this one line to rename the brand in all emails
+const BRAND = 'Tours Planet';
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.hostinger.com',
@@ -136,15 +138,13 @@ export const sendBookingConfirmation = async (bookings: BookingDetails[]) => {
 
     // --- Send Email to Customer ---
     const customerMailOptions = {
-        // ... options
-      from: `"Desert Smart Tourism" <${process.env.SMTP_USER}>`,
+      from: `"${BRAND}" <${process.env.SMTP_USER}>`,
       to: buyer.email,
       subject: `Order confirmation No ${String(bookings[0]._id).substring(String(bookings[0]._id).length - 6).toUpperCase()}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
           
           <div style="text-align: center; margin-bottom: 20px;">
-             <!-- Placeholder for Check Icon -->
              <div style="display: inline-block; width: 60px; height: 60px; background-color: #d4a768; border-radius: 50%; line-height: 60px; color: white; font-size: 30px; margin-bottom: 10px;">
                 ✓
              </div>
@@ -175,7 +175,7 @@ export const sendBookingConfirmation = async (bookings: BookingDetails[]) => {
           </div>
 
           <p style="margin-top: 40px; font-size: 12px; color: #999; text-align: center;">
-            Thank you for choosing Desert Smart Tourism!
+            Thank you for choosing ${BRAND}!
           </p>
         </div>
       `,
@@ -188,8 +188,8 @@ export const sendBookingConfirmation = async (bookings: BookingDetails[]) => {
 
     // --- Send Email to Admin ---
     const adminMailOptions = {
-      from: `"Desert Smart Tourism System" <${process.env.SMTP_USER}>`,
-      to: process.env.SMTP_USER, // Sending to admin (same email for now, or configurable)
+      from: `"${BRAND} System" <${process.env.SMTP_USER}>`,
+      to: process.env.SMTP_USER, // Admin notifications go to your SMTP_USER mailbox
       subject: `New Booking Received - ${paymentMethod}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -236,9 +236,9 @@ export const sendB2BEmails = async (data: B2BInquiryData) => {
     try {
         console.log("sendB2BEmails called for:", data.businessEmail);
 
-        // --- Send Email to Owner (Info@desertsmarttourism.com) ---
+        // --- Send Email to Owner (your SMTP_USER mailbox) ---
         const ownerMailOptions = {
-            from: `"Desert Smart Tourism System" <${process.env.SMTP_USER}>`,
+            from: `"${BRAND} System" <${process.env.SMTP_USER}>`,
             to: process.env.SMTP_USER,
             subject: `New B2B Partnership Proposal - ${data.companyName}`,
             html: `
@@ -260,7 +260,7 @@ export const sendB2BEmails = async (data: B2BInquiryData) => {
 
         // --- Send Confirmation to Sender ---
         const senderMailOptions = {
-            from: `"Desert Smart Tourism" <${process.env.SMTP_USER}>`,
+            from: `"${BRAND}" <${process.env.SMTP_USER}>`,
             to: data.businessEmail,
             subject: `Received: Your B2B Partnership Proposal`,
             html: `
@@ -271,7 +271,7 @@ export const sendB2BEmails = async (data: B2BInquiryData) => {
                     
                     <p>Dear ${data.fullName},</p>
                     
-                    <p>Thank you for reaching out to Desert Smart Tourism! We have received your partnership proposal regarding <strong>${data.companyName}</strong>.</p>
+                    <p>Thank you for reaching out to ${BRAND}! We have received your partnership proposal regarding <strong>${data.companyName}</strong>.</p>
                     
                     <p>Our team will review your message and get back to you shortly to discuss potential collaboration opportunities.</p>
                     
@@ -280,7 +280,7 @@ export const sendB2BEmails = async (data: B2BInquiryData) => {
                         <p style="margin-top: 5px; font-style: italic;">"${data.message}"</p>
                     </div>
 
-                    <p>Best regards,<br>The Desert Smart Tourism Team</p>
+                    <p>Best regards,<br>The ${BRAND} Team</p>
                 </div>
             `,
         };
@@ -300,4 +300,3 @@ export const sendB2BEmails = async (data: B2BInquiryData) => {
         return false;
     }
 };
-
