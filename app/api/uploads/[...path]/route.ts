@@ -1,28 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { getUploadDir } from '@/lib/file-upload';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
   try {
-    // Await params for Next.js 15 compatibility
     const resolvedParams = await params;
-    
-    // Join the path segments
-    const filePath = resolvedParams.path.join('/');
-    const fullPath = path.join(process.cwd(), 'public', 'uploads', filePath);
+    const uploadDir = path.resolve(getUploadDir());
+    const fullPath = path.resolve(uploadDir, ...resolvedParams.path);
 
-    // Check if file exists
+    // Block access outside the uploads folder
+    if (!fullPath.startsWith(uploadDir + path.sep)) {
+      return new NextResponse('Forbidden', { status: 403 });
+    }
+
     if (!fs.existsSync(fullPath)) {
       return new NextResponse('File not found', { status: 404 });
     }
 
-    // Read the file
     const fileBuffer = fs.readFileSync(fullPath);
 
-    // Determine content type based on file extension
     const ext = path.extname(fullPath).toLowerCase();
     const contentTypeMap: { [key: string]: string } = {
       '.jpg': 'image/jpeg',
@@ -31,10 +31,8 @@ export async function GET(
       '.gif': 'image/gif',
       '.webp': 'image/webp',
     };
-
     const contentType = contentTypeMap[ext] || 'application/octet-stream';
 
-    // Return the file with appropriate headers
     return new NextResponse(fileBuffer, {
       headers: {
         'Content-Type': contentType,
