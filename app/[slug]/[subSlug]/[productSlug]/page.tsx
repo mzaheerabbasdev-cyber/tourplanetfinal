@@ -349,7 +349,7 @@ export default function CityTourPage() {
               
               <div className="relative hidden md:block h-72 mt-4">
                 <Image
-                  src={activeData.image?.startsWith('/api/') ? `https://desertsmarttourism.com${activeData.image}` : (activeData.image || "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800")}
+                  src={activeData.image?.startsWith('/api/') ? `${activeData.image}` : (activeData.image || "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800")}
                   alt={activeData.imageAlt || activeData.title || 'Travel decoration'}
                   fill
                   className="object-contain"

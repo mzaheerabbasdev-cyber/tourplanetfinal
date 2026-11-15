@@ -186,7 +186,7 @@ export default function ManageContentPage() {
                       <tr key={pkg._id} className={`hover:bg-gray-50 ${isDraft(pkg) ? 'bg-amber-50/30' : ''}`}>
                         <td className="px-6 py-4">
                           <div className="relative w-16 h-12 rounded-md overflow-hidden bg-gray-100">
-                            {pkg.image && <Image src={pkg.image?.startsWith('/api/') ? `https://desertsmarttourism.com${pkg.image}` : pkg.image} alt={pkg.title} fill className="object-cover" />}
+                            {pkg.image && <Image src={pkg.image?.startsWith('/api/') ? `${pkg.image}` : pkg.image} alt={pkg.title} fill className="object-cover" />}
                           </div>
                         </td>
                         <td className="px-6 py-4 font-medium text-gray-900">{pkg.title}</td>
@@ -252,7 +252,7 @@ export default function ManageContentPage() {
                     <tr key={cat._id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                          <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-100">
-                           {cat.image && <Image src={cat.image?.startsWith('/api/') ? `https://desertsmarttourism.com${cat.image}` : cat.image} alt={cat.name} fill className="object-cover" />}
+                           {cat.image && <Image src={cat.image?.startsWith('/api/') ? `${cat.image}` : cat.image} alt={cat.name} fill className="object-cover" />}
                          </div>
                       </td>
                       <td className="px-6 py-4 font-medium text-gray-900">{cat.name}</td>

@@ -44,7 +44,7 @@ const EuropeToursSection: React.FC = () => {
                   className="relative flex-shrink-0 w-36 h-44 rounded-2xl overflow-hidden shadow-lg group cursor-pointer"
                 >
                   <Image
-                    src={card.image?.startsWith('/api/') ? `https://desertsmarttourism.com${card.image}` : card.image}
+                    src={card.image?.startsWith('/api/') ? `${card.image}` : card.image}
                     alt={card.title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-110"

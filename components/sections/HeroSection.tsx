@@ -137,7 +137,7 @@ const HeroSection: React.FC = () => {
                                       {/* Tiny Thumbnail */}
                                       <div className="w-12 h-12 rounded-lg overflow-hidden relative flex-shrink-0 bg-gray-200">
                                            <Image 
-                                              src={pkg.image?.startsWith('/api/') ? `https://desertsmarttourism.com${pkg.image}` : (pkg.image || 'https://via.placeholder.com/100')} 
+                                              src={pkg.image?.startsWith('/api/') ? `${pkg.image}` : (pkg.image || 'https://via.placeholder.com/100')} 
                                               alt={pkg.title} 
                                               fill 
                                               className="object-cover"

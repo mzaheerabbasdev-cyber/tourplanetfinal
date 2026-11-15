@@ -73,7 +73,7 @@ const CategoriesSection: React.FC = () => {
                 className="relative overflow-hidden rounded-2xl shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 w-full aspect-square"
               >
                 <Image
-                  src={category.image?.startsWith('/api/') ? `https://desertsmarttourism.com${category.image}` : category.image}
+                  src={category.image?.startsWith('/api/') ? `${category.image}` : category.image}
                   alt={category.title}
                   fill
                   className="object-cover"
@@ -101,7 +101,7 @@ const CategoriesSection: React.FC = () => {
               >
                 <div className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-md mb-3 transition-transform group-hover:scale-[1.02]">
                   <Image
-                    src={category.image?.startsWith('/api/') ? `https://desertsmarttourism.com${category.image}` : category.image}
+                    src={category.image?.startsWith('/api/') ? `${category.image}` : category.image}
                     alt={category.title}
                     fill
                     className="object-cover"

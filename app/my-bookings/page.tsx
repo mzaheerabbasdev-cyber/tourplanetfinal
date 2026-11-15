@@ -73,7 +73,7 @@ export default function MyBookingsPage() {
                 {booking.package?.image && (
                   <div className="w-full md:w-48 h-48 md:h-auto relative shrink-0">
                     <img
-                      src={booking.package.image?.startsWith('/api/') ? `https://desertsmarttourism.com${booking.package.image}` : booking.package.image}
+                      src={booking.package.image?.startsWith('/api/') ? `${booking.package.image}` : booking.package.image}
                       alt={booking.title}
                       className="w-full h-full object-cover"
                     />

@@ -239,7 +239,7 @@ export default function CartPage() {
                             <div className="flex gap-6">
                                 <div className="w-24 h-24 bg-gray-200 rounded-lg flex-shrink-0 relative overflow-hidden">
                                      {/* Placeholder image if none provided */}
-                                    <Image src={item.image?.startsWith('/api/') ? `https://desertsmarttourism.com${item.image}` : (item.image || '/images/destination/d-1.jpg')} alt={item.title} fill className="object-cover" />
+                                    <Image src={item.image?.startsWith('/api/') ? `${item.image}` : (item.image || '/images/destination/d-1.jpg')} alt={item.title} fill className="object-cover" />
                                 </div>
                                 <div className="flex-1">
                                     <h3 className="font-bold text-gray-800 text-lg mb-1">{item.title}</h3>
