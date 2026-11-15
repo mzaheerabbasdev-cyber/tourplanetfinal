@@ -16,7 +16,7 @@ import { useCart } from '@/context/CartContext';
 
 export default function CityTourPage() {
   const params = useParams();
-  const productSlug = params?.productSlug as string;
+  const productSlug = (params?.productSlug || params?.slug) as string;
   
   
   const [showOptions, setShowOptions] = useState(false);
