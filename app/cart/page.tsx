@@ -64,7 +64,7 @@ export default function CartPage() {
     setLoading(true);
 
     try {
-          const res = await fetch(`https://desertsmarttourism.com/api/bookings`, {
+          const res = await fetch(`/api/bookings`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -100,7 +100,7 @@ export default function CartPage() {
 
     // Create Payment Intent
     try {
-        const res = await fetch(`https://desertsmarttourism.com/api/create-payment-intent`, {
+        const res = await fetch(`/api/create-payment-intent`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ items: itemsWithVat, amount: totalWithVat }),
@@ -120,7 +120,7 @@ export default function CartPage() {
   const handlePaymentSuccess = async (paymentIntentId: string) => {
       // Save order to database
       try {
-          const res = await fetch(`https://desertsmarttourism.com/api/bookings`, {
+          const res = await fetch(`/api/bookings`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({

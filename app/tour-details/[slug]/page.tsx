@@ -66,7 +66,7 @@ export default function CityTourPage() {
     if (slug) {
         const fetchPackage = async () => {
             try {
-                const res = await fetch(`https://desertsmarttourism.com/api/packages?slug=${slug}`);
+                const res = await fetch(`/api/packages?slug=${slug}`);
                 const json = await res.json();
                 if (json.success && json.data && json.data.length > 0) {
                      setPackageData(json.data[0]);

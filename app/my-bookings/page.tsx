@@ -13,7 +13,7 @@ export default function MyBookingsPage() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await fetch(`https://desertsmarttourism.com/api/user/bookings`);
+        const res = await fetch(`/api/user/bookings`);
         const data = await res.json();
 
         if (data.success) {

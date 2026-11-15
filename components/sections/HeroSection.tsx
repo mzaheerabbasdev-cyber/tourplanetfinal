@@ -44,7 +44,7 @@ const HeroSection: React.FC = () => {
       setShowDropdown(true); // Show immediately to show loading state if desired, or wait for results
 
       try {
-        const res = await fetch(`https://desertsmarttourism.com/api/packages?search=${encodeURIComponent(query)}`);
+        const res = await fetch(`/api/packages?search=${encodeURIComponent(query)}`);
         const json = await res.json();
         if (json.success) {
            setResults(json.data.slice(0, 6)); // Limit to 6 results

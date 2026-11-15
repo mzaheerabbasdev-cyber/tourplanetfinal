@@ -18,7 +18,7 @@ const CategoriesSection: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(`https://desertsmarttourism.com/api/categories`);
+        const response = await fetch(`/api/categories`);
         const data = await response.json();
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
            const mapped = data.data.map((cat: any) => ({

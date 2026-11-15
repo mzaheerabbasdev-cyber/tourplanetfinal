@@ -24,15 +24,15 @@ export default function ManageContentPage() {
     setLoading(true);
     try {
       // includeAll=true so the dashboard also receives draft packages
-      const pkgRes = await fetch(`https://desertsmarttourism.com/api/packages?includeAll=true`);
+      const pkgRes = await fetch(`/api/packages?includeAll=true`);
       const pkgJson = await pkgRes.json();
       if (pkgJson.success) setPackages(pkgJson.data);
 
-      const catRes = await fetch(`https://desertsmarttourism.com/api/categories`);
+      const catRes = await fetch(`/api/categories`);
       const catJson = await catRes.json();
       if (catJson.success) setCategories(catJson.data);
 
-      const subcatRes = await fetch(`https://desertsmarttourism.com/api/subcategories`);
+      const subcatRes = await fetch(`/api/subcategories`);
       const subcatJson = await subcatRes.json();
       if (subcatJson.success) setSubcategories(subcatJson.data);
     } catch (err) {
@@ -46,7 +46,7 @@ export default function ManageContentPage() {
     if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) return;
 
     try {
-      const res = await fetch(`https://desertsmarttourism.com/api/${type}?id=${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/${type}?id=${id}`, { method: 'DELETE' });
       const json = await res.json();
       if (json.success) {
         alert('Deleted successfully');
@@ -75,7 +75,7 @@ export default function ManageContentPage() {
       data.append('id', pkg._id);
       data.append('status', newStatus);
 
-      const res = await fetch(`https://desertsmarttourism.com/api/packages`, { method: 'PUT', body: data });
+      const res = await fetch(`/api/packages`, { method: 'PUT', body: data });
       const json = await res.json();
       if (json.success) {
         setPackages((prev) => prev.map((p) => (p._id === pkg._id ? { ...p, status: newStatus } : p)));

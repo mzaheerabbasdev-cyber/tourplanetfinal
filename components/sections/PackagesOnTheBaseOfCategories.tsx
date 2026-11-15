@@ -135,8 +135,8 @@ const secondCategoryPackageOrder = [
     const fetchData = async () => {
       try {
         const [categoriesRes, packagesRes] = await Promise.all([
-          fetch(`https://desertsmarttourism.com/api/categories`),
-          fetch(`https://desertsmarttourism.com/api/packages`)
+          fetch(`/api/categories`),
+          fetch(`/api/packages`)
         ]);
 
         const categoriesData = await categoriesRes.json();

@@ -50,7 +50,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/remote-api/:path*',
-        destination: 'https://desertsmarttourism.com/api/:path*',
+        destination: '/api/:path*',
       },
     ]
   },
