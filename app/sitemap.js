@@ -1,5 +1,5 @@
 const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://desertsmarttourism.com";
+  process.env.NEXT_PUBLIC_BASE_URL || "https://toursplanet.ae";
 
 export default async function sitemap() {
   // ─── Static Pages ───────────────────────────────────────────────────────────
