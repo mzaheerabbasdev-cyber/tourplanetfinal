@@ -20,16 +20,16 @@ export default function CartPage() {
   const router = useRouter();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
   // ---- 5% VAT ----
-  // Each item gets 5% added. These VAT-inclusive items are what we send to Stripe and save as bookings.
+  // VAT is worked out in fils (1/100 AED), so 2 AED gives 0.10 VAT and a 2.10 total.
+  // These VAT-inclusive items are what we send to the payment provider and save as bookings.
   const itemsWithVat = items.map((item) => ({
     ...item,
-    totalPrice: Math.round(item.totalPrice * 1.05),  }));
+    totalPrice: Math.round(item.totalPrice * 105) / 100,
+  }));
   const totalWithVat = Math.round(itemsWithVat.reduce((sum, item) => sum + item.totalPrice, 0) * 100) / 100;
   const vatAmount = Math.round((totalWithVat - cartTotal) * 100) / 100;
-  const formatAed = (n: number) => n.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-  
+  const formatAed = (n: number) => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const [buyerInfo, setBuyerInfo] = useState({
     firstName: '',
     lastName: '',
