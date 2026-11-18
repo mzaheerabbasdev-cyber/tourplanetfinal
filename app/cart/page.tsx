@@ -20,8 +20,9 @@ export default function CartPage() {
   const router = useRouter();
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   // ---- 5% VAT ----
-  // VAT is worked out in fils (1/100 AED), so 2 AED gives 0.10 VAT and a 2.10 total.
+  // VAT is worked out to 2 decimals, so 2 AED gives 0.10 VAT and a 2.10 total.
   // These VAT-inclusive items are what we send to the payment provider and save as bookings.
   const itemsWithVat = items.map((item) => ({
     ...item,
@@ -30,6 +31,7 @@ export default function CartPage() {
   const totalWithVat = Math.round(itemsWithVat.reduce((sum, item) => sum + item.totalPrice, 0) * 100) / 100;
   const vatAmount = Math.round((totalWithVat - cartTotal) * 100) / 100;
   const formatAed = (n: number) => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  
   const [buyerInfo, setBuyerInfo] = useState({
     firstName: '',
     lastName: '',
@@ -373,20 +375,10 @@ export default function CartPage() {
                           </div>
                       )}
                       
-                      <p className="text-[10px] text-gray-500 mb-6 leading-tight">
-                          By clicking 'Confirm & Pay' you agree to our <span className="underline cursor-pointer">Privacy & Conditions</span>
+                      <p className="text-[10px] text-gray-500 leading-tight">
+                          By clicking &apos;Confirm &amp; Pay&apos; or &apos;Confirm Booking&apos;, you agree to our{' '}
+                          <Link href="/terms-and-conditions" className="underline">Terms and Conditions</Link>.
                       </p>
-
-                      {/* Trust Badges */}
-                      <div className="space-y-2 text-xs text-gray-600">
-                          <div className="flex items-center gap-2">
-                              <span className="bg-white p-1 rounded-full shadow-sm">🔒</span> Secure payment
-                          </div>
-                          <div className="flex items-center gap-2">
-                              <span className="bg-white p-1 rounded-full shadow-sm">💲</span> No hidden costs
-                          </div>
-                      </div>
-
                   </div>
               </div>
            </div>
