@@ -1,4 +1,7 @@
-import React from 'react';
+
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface RecentGalleryProps {
@@ -6,7 +9,25 @@ interface RecentGalleryProps {
   alts?: string[];
 }
 
+// Where each picture sits inside the gallery (percentages of the gallery's width and height).
+// Order: 0 = left, 1 and 2 = stacked, 3 = big middle, 4 and 5 = stacked, 6 = right.
+const tiles = [
+  { left: 0, top: 26.45, width: 16.88, height: 45.34, big: false },
+  { left: 18.29, top: 5.04, width: 18.48, height: 42.07, big: false },
+  { left: 18.29, top: 49.87, width: 18.48, height: 42.07, big: false },
+  { left: 38.18, top: 0, width: 23.64, height: 100, big: true },
+  { left: 63.23, top: 5.04, width: 18.48, height: 42.07, big: false },
+  { left: 63.23, top: 49.87, width: 18.48, height: 42.07, big: false },
+  { left: 83.12, top: 26.45, width: 16.88, height: 45.34, big: false },
+];
+
+// Corner roundness grows and shrinks with the gallery so it looks the same on every screen
+const smallRadius = 'calc(min(100vw, 1066px) * 0.0225)';
+const bigRadius = 'calc(min(100vw, 1066px) * 0.045)';
+
 const RecentGallery: React.FC<RecentGalleryProps> = ({ images, alts = [] }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   // Use provided images or fallback to default
   const defaultImages = [
     'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=400&h=400&q=80',
@@ -25,104 +46,99 @@ const RecentGallery: React.FC<RecentGalleryProps> = ({ images, alts = [] }) => {
   // Helper to get alt text with fallback
   const getAlt = (index: number) => alts[index % displayImages.length] || `Gallery image ${index + 1}`;
 
+  // Close the popup with the Escape key and stop the page behind it from scrolling
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
   return (
     <section className="w-full py-8 md:py-12">
       <h2 className="text-3xl md:text-[40px] font-bold text-center text-[#183B56] mb-8 md:mb-12 font-serif">
         Recent Gallery
       </h2>
-      
-      {/* Desktop View - Hidden on Mobile */}
-      <div className="hidden lg:flex justify-center items-center gap-4 px-4 h-[500px]">
-        {/* Column 1 - Single Image */}
-        <div className="flex items-center h-full">
-            <div className="relative w-[150px] h-[150px] xl:w-[200px] xl:h-[200px] rounded-3xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(0)} 
-                    alt={getAlt(0)} 
-                    fill 
-                    className="object-cover"
-                />
-            </div>
-        </div>
 
-        {/* Column 2 - Stacked Images */}
-        <div className="flex flex-col gap-4 h-[80%] justify-center">
-             <div className="relative w-[160px] h-[130px] xl:w-[220px] xl:h-[180px] rounded-3xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(1)} 
-                    alt={getAlt(1)} 
-                    fill 
-                    className="object-cover"
-                />
+      {/* Same layout on every screen size: it simply scales down on phones */}
+      <div className="px-4">
+        <div className="relative mx-auto w-full max-w-[1066px]" style={{ aspectRatio: '1066 / 397' }}>
+          {tiles.map((tile, i) => (
+            <div
+              key={i}
+              className={`absolute overflow-hidden bg-gray-100 hover:scale-105 transition-transform duration-300 ${
+                tile.big ? 'shadow-xl' : 'shadow-lg'
+              }`}
+              style={{
+                left: `${tile.left}%`,
+                top: `${tile.top}%`,
+                width: `${tile.width}%`,
+                height: `${tile.height}%`,
+                borderRadius: tile.big ? bigRadius : smallRadius,
+                zIndex: tile.big ? 10 : 1,
+              }}
+            >
+              <Image
+                src={getImg(i)}
+                alt={getAlt(i)}
+                fill
+                sizes={tile.big ? '(min-width: 1066px) 252px, 24vw' : '(min-width: 1066px) 197px, 19vw'}
+                className="object-cover"
+              />
             </div>
-             <div className="relative w-[160px] h-[130px] xl:w-[220px] xl:h-[180px] rounded-3xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(2)} 
-                    alt={getAlt(2)} 
-                    fill 
-                    className="object-cover"
-                />
-            </div>
-        </div>
-
-        {/* Column 3 - Center Tall Image */}
-        <div className="flex items-center h-full">
-            <div className="relative w-[200px] h-[350px] xl:w-[280px] xl:h-[450px] rounded-[3rem] overflow-hidden shadow-xl z-10 hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(3)} 
-                    alt={getAlt(3)} 
-                    fill 
-                    className="object-cover"
-                />
-            </div>
-        </div>
-
-        {/* Column 4 - Stacked Images */}
-        <div className="flex flex-col gap-4 h-[80%] justify-center">
-             <div className="relative w-[160px] h-[130px] xl:w-[220px] xl:h-[180px] rounded-3xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(4)} 
-                    alt={getAlt(4)} 
-                    fill 
-                    className="object-cover"
-                />
-            </div>
-             <div className="relative w-[160px] h-[130px] xl:w-[220px] xl:h-[180px] rounded-3xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(5)} 
-                    alt={getAlt(5)} 
-                    fill 
-                    className="object-cover"
-                />
-            </div>
-        </div>
-
-        {/* Column 5 - Single Image */}
-        <div className="flex items-center h-full">
-            <div className="relative w-[150px] h-[150px] xl:w-[200px] xl:h-[200px] rounded-3xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300">
-                <Image 
-                    src={getImg(6)} 
-                    alt={getAlt(6)} 
-                    fill 
-                    className="object-cover"
-                />
-            </div>
-        </div>
-      </div>
-
-      {/* Mobile View - Horizontal Scroll */}
-      <div className="lg:hidden flex gap-4 overflow-x-auto px-4 pb-4 scrollbar-hide snap-x">
-          {displayImages.map((img, idx) => (
-              <div key={idx} className="relative flex-shrink-0 w-[280px] h-[350px] rounded-3xl overflow-hidden shadow-lg snap-center">
-                  <Image 
-                      src={img} 
-                      alt={getAlt(idx)} 
-                      fill 
-                      className="object-cover"
-                  />
-              </div>
           ))}
+        </div>
       </div>
+
+      {/* Only shown when the package has more pictures than the layout can hold */}
+      {displayImages.length > tiles.length && (
+        <div className="flex justify-center mt-6">
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="px-5 py-2.5 rounded-lg border border-[#183B56] text-[#183B56] text-sm font-semibold hover:bg-[#183B56] hover:text-white transition-colors"
+          >
+            View all {displayImages.length} photos
+          </button>
+        </div>
+      )}
+
+      {/* All images popup */}
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/90 overflow-y-auto" onClick={() => setIsOpen(false)}>
+          <button
+            type="button"
+            aria-label="Close gallery"
+            onClick={() => setIsOpen(false)}
+            className="fixed top-4 right-4 z-[110] w-10 h-10 rounded-full bg-white text-gray-800 text-xl leading-none flex items-center justify-center shadow"
+          >
+            ✕
+          </button>
+          <div
+            className="max-w-5xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {displayImages.map((img, idx) => (
+              <div key={idx} className="relative aspect-[4/3] rounded-xl overflow-hidden">
+                <Image
+                  src={img}
+                  alt={alts[idx] || `Gallery image ${idx + 1}`}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 };
