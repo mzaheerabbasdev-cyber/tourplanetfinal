@@ -69,6 +69,7 @@ const RecentGallery: React.FC<RecentGalleryProps> = ({ images, alts = [] }) => {
                   src={getImg(i)}
                   alt={getAlt(i)}
                   fill
+                  unoptimized
                   sizes={i === 0 ? '(min-width: 1050px) 525px, 50vw' : '(min-width: 1050px) 256px, 25vw'}
                   className="object-cover hover:scale-105 transition-transform duration-300"
                   priority={i === 0}
@@ -114,6 +115,7 @@ const RecentGallery: React.FC<RecentGalleryProps> = ({ images, alts = [] }) => {
                   src={img}
                   alt={alts[idx] || `Gallery image ${idx + 1}`}
                   fill
+                  unoptimized
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover"
                 />
