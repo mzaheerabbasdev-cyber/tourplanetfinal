@@ -198,25 +198,15 @@ export default function CityTourPage() {
     <div className="min-h-screen bg-white">
       <Header />
       
-      <section
-        className="relative h-[30vh] min-h-[340px] w-full bg-cover bg-center flex flex-col justify-center items-center"
-        style={{
-          backgroundImage: `url('${activeData.image || '/images/travel-with-us.svg'}')`,
-        }}
-      >
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 text-center text-white px-4">
-          <p className="text-[10px] uppercase tracking-[0.3em] mb-3 opacity-90">
-            Tour Details
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-5xl font-serif italic font-normal">
-            {activeData.title}
-          </h1>
-        </div>
-      </section>
+      <main className="max-w-6xl mx-auto px-4 pt-32 md:pt-40 pb-10">
 
-      <main className="max-w-6xl mx-auto px-4 py-10">
-        
+          {/* Product title, straight under the header */}
+          <div className="mx-auto w-full max-w-[1050px] px-4 mb-4">
+            <h1 className="text-xl md:text-[28px] font-bold text-[#181E4B] leading-snug">
+              {activeData.title}
+            </h1>
+          </div>
+
            <RecentGallery images={activeData.gallery} alts={activeData.galleryAlts} />
 
           <div className="flex flex-col lg:flex-row gap-8 md:mt-8">
