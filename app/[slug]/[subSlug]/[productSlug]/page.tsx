@@ -21,6 +21,8 @@ export default function CityTourPage() {
   
   const [showOptions, setShowOptions] = useState(false);
   const [packageData, setPackageData] = useState<any>(null);
+  // True until the package has been loaded, so the sample "City Tour" content is never shown
+  const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -70,9 +72,13 @@ export default function CityTourPage() {
                 }
             } catch (err) {
                 console.error("Failed to fetch package", err);
+            } finally {
+                setLoading(false);
             }
         };
         fetchPackage();
+    } else {
+        setLoading(false);
     }
   }, [productSlug]);
 
@@ -193,6 +199,22 @@ export default function CityTourPage() {
       if (Array.isArray(content)) return content.map(item => `<li>${item}</li>`).join('');
       return '';
   };
+
+  // While the package is loading, show a plain placeholder instead of the sample content
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <main className="max-w-6xl mx-auto px-4 pt-32 md:pt-40 pb-10">
+          <div className="mx-auto w-full max-w-[1050px] px-4">
+            <div className="h-8 w-2/3 rounded bg-gray-200 animate-pulse mb-4" />
+            <div className="w-full rounded-2xl bg-gray-100 animate-pulse" style={{ aspectRatio: '1050 / 328' }} />
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
