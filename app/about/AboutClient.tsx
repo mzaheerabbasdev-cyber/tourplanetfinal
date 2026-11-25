@@ -25,7 +25,7 @@ export default function AboutClient() {
             About Us
           </h1>
           <p className="text-lg md:text-xl font-light opacity-90 max-w-2xl mx-auto">
-             Your trusted partner for authentic desert experiences and curated city tours in the UAE.
+             UAE In-bound Tour Operator Since 2010
           </p>
         </div>
       </section>
@@ -39,14 +39,14 @@ export default function AboutClient() {
             <div className="w-full md:w-2/3 space-y-8">
                 <div>
                    <h2 className="text-3xl md:text-4xl font-bold text-[#1E3A5F] mb-6 font-serif">
-                     About Desert Smart Tourism
+                     About ToursPlanet.ae
                    </h2>
                    <div className="w-24 h-1 bg-[#F85E46] mb-8"></div>
                 </div>
 
                 <div className="text-base md:text-lg text-gray-700 leading-relaxed space-y-6">
                     <p>
-                    <span className="font-bold text-[#F85E46]">Desert Smart Tourism</span> is a trusted travel and tourism company based in the UAE, specializing in authentic desert experiences and carefully curated city tours.
+                    <span className="font-bold text-[#F85E46]">Toursplanet.ae</span> is a trusted travel and tourism company based in the UAE, specializing in authentic desert experiences and carefully curated city tours.
                     </p>
 
                     <p>
